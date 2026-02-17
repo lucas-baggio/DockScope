@@ -25,7 +25,7 @@
 Para subir **backend (Go) e frontend (React)** em desenvolvimento com um único comando:
 
 ```bash
-https://github.com/lucas-baggio/DockScope.git
+git clone https://github.com/lucas-baggio/DockScope.git
 cd dockscope
 go mod tidy
 cd web && npm install && cd ..
