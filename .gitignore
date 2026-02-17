@@ -1,0 +1,38 @@
+# Binários
+/dockscope
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Dependências Go
+/vendor/
+
+# IDE / Editor
+.idea/
+.vscode/
+.cursor/
+*.swp
+*.swo
+*~
+
+# Build / Cache
+/dist/
+/build/
+*.test
+coverage.out
+coverage.html
+/coverage/
+
+# Env
+.env
+.env.local
+.env.*.local
+*.local
+
+# Logs (root)
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
