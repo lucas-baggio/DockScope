@@ -1,5 +1,9 @@
 # DockScope
 
+![License](https://img.shields.io/github/license/dockscope/dockscope)
+![Go Version](https://img.shields.io/github/go-mod/go-version/dockscope/dockscope)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
+
 **DockScope** é um dashboard open source de observabilidade e gestão para Docker: métricas em tempo real, logs, ações de controle e visão consolidada do host, com backend em Go e interface em React.
 
 ## Funcionalidades
@@ -18,45 +22,41 @@
 
 ## Instalação e execução
 
-### Subir backend e frontend (recomendado)
+### Um comando: ambiente fullstack (recomendado)
 
-Na raiz do repositório, com dependências já instaladas (`go mod tidy` e `cd web && npm install`):
-
-```bash
-./run.sh
-```
-
-O script inicia o backend (API em `:8080`), espera ficar pronto e depois inicia o frontend (Vite em `:5173`). Ao sair (Ctrl+C), encerra os dois.
-
-### Backend (API) só
+Para subir **backend (Go) e frontend (React)** em desenvolvimento com um único comando:
 
 ```bash
 git clone https://github.com/dockscope/dockscope.git
 cd dockscope
 go mod tidy
+cd web && npm install && cd ..
+./run.sh
+```
+
+O **`run.sh`** é o script de automação do projeto: gere o ciclo de vida dos dois serviços e garante que a API esteja disponível antes de lançar o Vite. Assim, ao abrir `http://localhost:5173`, o dashboard já consegue falar com o backend em `http://localhost:8080` sem erros de conexão.
+
+**Nota técnica:** O script trata o encerramento gracioso (SIGINT/Ctrl+C) de ambos os processos. Ao sair, o trap encerra o backend e evita processos “zumbis” nas portas 8080 ou 5173, para que possas voltar a executar `./run.sh` sem conflito de portas.
+
+Esta abordagem foi pensada para **desenvolvimento nativo e depuração em tempo real**: um único terminal, dependência da API resolvida automaticamente e desligamento limpo.
+
+### Backend (API) só
+
+```bash
 go run ./cmd/dockscope
 ```
 
-A API fica disponível em `http://localhost:8080`.
+A API fica em `http://localhost:8080`. Opções: `--addr=:9090`, `--cli` (listagem no terminal), `--cli --all`, `-v` (debug).
 
-Opções úteis:
+### Frontend (dashboard) só
 
-- `--addr=:9090` — Alterar endereço da API
-- `--cli` — Modo terminal: listar containers, imagens e volumes e sair
-- `--cli --all` — Incluir containers parados na listagem CLI
-- `-v` — Logs em modo debug
-
-### Frontend (dashboard)
-
-Com o backend em execução:
+Com o backend já em execução noutro terminal:
 
 ```bash
-cd web
-npm install
-npm run dev
+cd web && npm run dev
 ```
 
-Abrir `http://localhost:5173`. O Vite faz proxy de `/api` para `http://localhost:8080`; ajuste a porta em `web/vite.config.ts` se a API estiver noutro endereço.
+Abrir `http://localhost:5173`. O proxy do Vite envia `/api` para `:8080`; ajuste `web/vite.config.ts` se a API estiver noutra porta.
 
 ### Build para produção
 
@@ -65,7 +65,7 @@ go build -o dockscope ./cmd/dockscope
 cd web && npm run build
 ```
 
-O frontend gera os ficheiros estáticos em `web/dist`; sirva-os com qualquer servidor HTTP e garanta que as chamadas à API apontam para o backend.
+Os estáticos ficam em `web/dist`; sirva-os com um servidor HTTP e aponte as chamadas à API para o backend.
 
 ## API
 
