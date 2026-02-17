@@ -10,7 +10,6 @@ export function VolumesPage() {
 
   useEffect(() => {
     let cancelled = false;
-    setLoading(true);
     api
       .getVolumes()
       .then((data) => {

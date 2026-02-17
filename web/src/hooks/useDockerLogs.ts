@@ -24,14 +24,18 @@ export function useDockerLogs(containerId: string | null, enableWhen = true) {
 
   useEffect(() => {
     if (!containerId || !enableWhen) {
-      setText('');
-      setConnected(false);
-      setError(null);
+      queueMicrotask(() => {
+        setText('');
+        setConnected(false);
+        setError(null);
+      });
       return;
     }
 
-    setError(null);
-    setText('');
+    queueMicrotask(() => {
+      setError(null);
+      setText('');
+    });
     closedByCleanupRef.current = false;
 
     const timeoutId = setTimeout(() => {

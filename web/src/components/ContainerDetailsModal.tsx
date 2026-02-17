@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { X, Play, Square, RefreshCcw, Pause, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import {
@@ -70,7 +70,7 @@ export function ContainerDetailsModal({
     logsEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [logsText]);
 
-  const refreshContainer = () => {
+  const refreshContainer = useCallback(() => {
     api
       .getContainers(true)
       .then((list) => {
@@ -78,11 +78,11 @@ export function ContainerDetailsModal({
         if (c) setContainer(c);
       })
       .catch(() => {});
-  };
+  }, [containerId]);
 
   useEffect(() => {
     refreshContainer();
-  }, [containerId]);
+  }, [refreshContainer]);
 
   const runAction = async (action: ContainerAction) => {
     if (actionLoading) return;

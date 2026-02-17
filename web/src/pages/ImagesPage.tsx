@@ -11,7 +11,6 @@ export function ImagesPage() {
 
   useEffect(() => {
     let cancelled = false;
-    setLoading(true);
     api
       .getImages()
       .then((data) => {

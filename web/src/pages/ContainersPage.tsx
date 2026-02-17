@@ -12,7 +12,6 @@ export function ContainersPage() {
 
   useEffect(() => {
     let cancelled = false;
-    setLoading(true);
     api
       .getContainers(true)
       .then((data) => {

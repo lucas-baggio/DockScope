@@ -25,14 +25,18 @@ export function useDockerStats(containerId: string | null) {
 
   useEffect(() => {
     if (!containerId) {
-      setMetrics([]);
-      setConnected(false);
-      setError(null);
+      queueMicrotask(() => {
+        setMetrics([]);
+        setConnected(false);
+        setError(null);
+      });
       return;
     }
 
-    setError(null);
-    setMetrics([]);
+    queueMicrotask(() => {
+      setError(null);
+      setMetrics([]);
+    });
     closedByCleanupRef.current = false;
 
     const timeoutId = setTimeout(() => {
@@ -56,6 +60,7 @@ export function useDockerStats(containerId: string | null) {
             return next;
           });
         } catch {
+          void 0;
         }
       };
 
