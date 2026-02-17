@@ -1,7 +1,5 @@
 # DockScope
 
-![License](https://img.shields.io/github/license/dockscope/dockscope)
-![Go Version](https://img.shields.io/github/go-mod/go-version/dockscope/dockscope)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
 **DockScope** é um dashboard open source de observabilidade e gestão para Docker: métricas em tempo real, logs, ações de controle e visão consolidada do host, com backend em Go e interface em React.
